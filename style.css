@@ -1,0 +1,108 @@
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #23c004;
+    --background-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    --text-color: #fff;
+    --shape-color: rgba(255, 255, 255, 0.2); /* Adjusted for better visibility */
+    --font-family: 'Arial', sans-serif;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-family);
+    background-image: var(--background-gradient);
+    color: var(--text-color);
+    overflow: hidden;
+    position: relative; /* Needed for absolute positioning of shapes */
+}
+
+@keyframes rainbow-move {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+@keyframes wave {
+    0%, 60%, 100% {
+      transform: translateY(0%);
+    }
+    30% {
+      transform: translateY(-10px);
+    }
+}
+h1 {
+    font-size: 3rem;
+    z-index: 10; /* Ensure text is above shapes */
+    position: relative;
+}
+
+h1 span {
+    display: inline-block;
+    /* Apply the background image to each span */
+    background-image: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+    background-size: 500% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    /* Apply the wave animation */
+    animation: wave 1s ease-in-out infinite, rainbow-move 2s linear infinite;
+    animation-delay: calc(0.1s * var(--i));
+}
+
+@keyframes rainbow-move {
+    0% { background-position: 0% 50%; }
+    100% { background-position: -400% 50%; } /* Move the gradient five times the original width */
+}
+
+body::before, body::after {
+    content: '';
+    position: absolute;
+    width: 100px; /* Shape size */
+    height: 100px; /* Shape size */
+    background: var(--shape-color);
+    z-index: 1;
+}
+
+body::before {
+    top: 20%;
+    left: 10%;
+    border-radius: 50%; /* Creates a circle */
+}
+
+body::after {
+    bottom: 20%;
+    right: 10%;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Creates a triangle */
+}
+
+/* Additional shapes with pseudo-elements on h1 for example */
+h1::before, h1::after {
+    content: '';
+    position: absolute;
+    z-index: -1; /* Behind the text */
+}
+
+h1::before {
+    top: -20px;
+    left: -20px;
+    width: 60px;
+    height: 60px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+}
+
+h1::after {
+    bottom: -20px;
+    right: -20px;
+    width: 60px;
+    height: 60px;
+    background: var(--secondary-color);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
